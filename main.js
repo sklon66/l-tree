@@ -1,12 +1,30 @@
-// l-system config
 let str = "22220";
+let temp = "";
+let level = 0;
 const itr = 11;
 const rules = {
-    "0": "1[-20]+20",
-	"1": "21"
+    "0": { shift: "1[-20]+20" },
+	"1": { shift: "21" },
+    "[": {
+        subRule: () => {
+            level += 1
+        }
+    },
+    "]": {
+        subRule: () => {
+            level -= 1
+        }
+    },
+    "2": {
+        subRule: () => {
+            if (randomInteger(0, 100) < 7 && level > 2) {
+                temp.slice();
+                temp += "3[30]";
+            }
+        }
+    }
 }
 
-// turtle config
 let len = 10;
 let thick = 16;
 const leafThick = 4;
@@ -23,13 +41,14 @@ function randomInteger(min, max) {
 
 function generate() {
     for (let index = 0; index < itr; index++) {
-        let temp = "";
+        temp = "";
         for (let char of str) {
-            if (rules[char]) {
-                temp += rules[char];
+            if (rules[char]?.shift) {
+                temp += rules[char].shift;
             } else {
                 temp += char;
             }
+            if (rules[char]?.subRule) rules[char].subRule()
         }
         str = temp;
     }
@@ -41,18 +60,6 @@ function turtle() {
   	translate(width / 2, height-10);
 	for (let char of str) {
 		switch (char) {
-			case "1":
-                if (randomInteger(0, 100) > randPercent) {
-                    line(0,0,0, -len);
-                    translate(0, -len);
-                }
-				break;
-            case "2":
-                if (randomInteger(0, 100) > randPercent) {
-                    line(0,0,0, -len);
-                    translate(0, -len);
-                }
-				break;
             case "0":
                 strokeWeight(leafThick);
                 let rand = randomInteger(0, 100);
@@ -74,6 +81,14 @@ function turtle() {
 			case "-":
 				rotate(-radians(ang + randomInteger(-randAng, randAng)));
 				break;
+            case "^":
+                const adAng = randomInteger(-30, 30);
+                if (adAng < 0) {
+                    rotate(-radians(adAng-25))
+                } else {
+                    rotate(-radians(adAng-25))
+                }
+                rotate()
 			case "[":
                 thick = thick * 0.75;
                 strokeWeight(thick);
@@ -84,6 +99,12 @@ function turtle() {
                 thick = memory.pop();
                 strokeWeight(thick);
 				pop();
+				break;
+            default:
+                if (randomInteger(0, 100) > randPercent) {
+                    line(0,0,0, -len);
+                    translate(0, -len);
+                }
 				break;
 		}
 	}
