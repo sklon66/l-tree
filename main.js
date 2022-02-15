@@ -1,9 +1,9 @@
 // l-system config
-let str = "CCCCX";
+let str = "22220";
 const itr = 11;
 const rules = {
-    "X": "F[-CX]+CX",
-	"F": "CF"
+    "0": "1[-20]+20",
+	"1": "21"
 }
 
 // turtle config
@@ -38,18 +38,22 @@ function generate() {
 
 function turtle() {
 	background(200);
-  	translate(width / 2, height - 100);
+  	translate(width / 2, height-10);
 	for (let char of str) {
 		switch (char) {
-            // ствол\ветка
-			case "F":
+			case "1":
                 if (randomInteger(0, 100) > randPercent) {
                     line(0,0,0, -len);
                     translate(0, -len);
                 }
 				break;
-            // 
-            case "X":
+            case "2":
+                if (randomInteger(0, 100) > randPercent) {
+                    line(0,0,0, -len);
+                    translate(0, -len);
+                }
+				break;
+            case "0":
                 strokeWeight(leafThick);
                 let rand = randomInteger(0, 100);
                 if (rand > -1 && rand < 33) {
@@ -59,16 +63,10 @@ function turtle() {
                 } else {
                     stroke(0,100,0);
                 }
-                line(0,0,0, -len);
-                translate(0, -len);
+                line(0,0,0, -(len - 5));
+                translate(0, -(len - 5));
                 strokeWeight(thick);
                 stroke(51);
-				break;
-            case "C":
-                if (randomInteger(0, 100) > randPercent) {
-                    line(0,0,0, -len);
-                    translate(0, -len);
-                }
 				break;
 			case "+":
 				rotate(radians(ang + randomInteger(-randAng, randAng)));
