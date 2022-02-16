@@ -1,9 +1,9 @@
 let str = "22220";
 let temp = "";
 let level = 0;
-const itr = 11;
+const itr = 12;
 const rules = {
-    "0": { shift: "1[-20]+20" },
+    "0": { shift: "1[-20][+20]" },
 	"1": { shift: "21" },
     "[": {
         subRule: () => {
@@ -19,20 +19,19 @@ const rules = {
         subRule: () => {
             if (randomInteger(0, 100) < 7 && level > 2) {
                 temp.slice();
-                temp += "3[30]";
+                temp += "3[*30]";
             }
         }
     }
 }
 
 let len = 10;
-let thick = 16;
+let thick = 30;
 const leafThick = 4;
 const ang = 16;
 const randAng = 15;
 const randPercent = 40;
 const memory = [];
-
 
 function randomInteger(min, max) {
 	let rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -81,16 +80,16 @@ function turtle() {
 			case "-":
 				rotate(-radians(ang + randomInteger(-randAng, randAng)));
 				break;
-            case "^":
+            case "*":
                 const adAng = randomInteger(-30, 30);
                 if (adAng < 0) {
                     rotate(-radians(adAng-25))
                 } else {
-                    rotate(-radians(adAng-25))
+                    rotate(-radians(adAng+25))
                 }
-                rotate()
+                break;
 			case "[":
-                thick = thick * 0.75;
+                thick *= 0.86;
                 strokeWeight(thick);
                 memory.push([thick]);
 				push();
