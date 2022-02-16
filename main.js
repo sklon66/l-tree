@@ -38,6 +38,10 @@ function randomInteger(min, max) {
 	return Math.round(rand);
 }
 
+function sleep(ms = 50) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function generate() {
     for (let index = 0; index < itr; index++) {
         temp = "";
@@ -54,7 +58,7 @@ function generate() {
     turtle();
 }
 
-function turtle() {
+async function turtle() {
 	background(200);
   	translate(width / 2, height-10);
 	for (let char of str) {
@@ -101,6 +105,7 @@ function turtle() {
 				break;
             default:
                 if (randomInteger(0, 100) > randPercent) {
+                    await sleep()
                     line(0,0,0, -len);
                     translate(0, -len);
                 }
